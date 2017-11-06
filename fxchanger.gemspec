@@ -34,5 +34,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "sequel", "~> 5.2"
   spec.add_development_dependency "gem_config", "~> 0.3.1"
   spec.add_development_dependency "faraday", "~> 0.13.1"
+  spec.add_development_dependency "faraday_middleware", "~> 0.12.2"
+  spec.add_development_dependency "multi_xml", "~> 0.6.0"
   spec.add_development_dependency "webmock", "~> 3.1"
+  spec.add_development_dependency "sqlite3", "~> 1.3"
 end
