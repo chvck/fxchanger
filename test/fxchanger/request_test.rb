@@ -6,8 +6,8 @@ class RequestTest < Minitest::Test
     stub_request(:get, endpoint).
       to_return(body: "<xml></xml>")
 
-    response = FxchangerHarvest::Request.get(endpoint, :xml)
-    assert_kind_of FxchangerHarvest::Response, response
+    response = Fxchanger::Request.get(endpoint, :xml)
+    assert_kind_of Fxchanger::Response, response
   end
 
   def test_request_get_json
@@ -15,7 +15,7 @@ class RequestTest < Minitest::Test
     stub_request(:get, endpoint).
         to_return(body: "{\"data\": \"data\"}")
 
-    response = FxchangerHarvest::Request.get(endpoint, :json)
-    assert_kind_of FxchangerHarvest::Response, response
+    response = Fxchanger::Request.get(endpoint, :json)
+    assert_kind_of Fxchanger::Response, response
   end
 end

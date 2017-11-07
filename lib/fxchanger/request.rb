@@ -1,4 +1,4 @@
-module FxchangerHarvest
+module Fxchanger
   # Internal: Methods for fetching data from URLs.
   class Request
 
@@ -12,7 +12,7 @@ module FxchangerHarvest
     #   get("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml", :xml)
     #   # => '<xml></xml>'
     #
-    # Returns a FxchangerHarvest::Response.
+    # Returns a Fxchanger::Response.
     def self.get(endpoint, response_type)
       connection = Faraday.new endpoint do |conn|
         conn.response response_type
@@ -26,14 +26,14 @@ module FxchangerHarvest
 
     private
 
-    # Convert a response from the HTTP library to a FxchangerHarvest::Response.
+    # Convert a response from the HTTP library to a Fxchanger::Response.
     #
     # response  - The response to be wrapped.
     #
-    # Returns a FxchangerHarvest::Response.
+    # Returns a Fxchanger::Response.
     def self.handle_response(response)
       if response.success?
-        FxchangerHarvest::Response.new response
+        Fxchanger::Response.new response
       end
     end
   end

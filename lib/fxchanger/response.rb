@@ -1,4 +1,4 @@
-module FxchangerHarvest
+module Fxchanger
   # Internal: Abstraction of a HTTP response object.
   class Response
     # Internal: Initialize a response.

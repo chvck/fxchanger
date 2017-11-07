@@ -1,6 +1,6 @@
 require "sequel"
 
-module FxchangerHarvest
+module Fxchanger
   # Internal: Responsible for handling interactions with the rates table.
   class ExchangeRepository
     TABLE = :rates

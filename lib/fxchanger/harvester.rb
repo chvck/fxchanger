@@ -1,15 +1,15 @@
-module FxchangerHarvest
+module Fxchanger
   # Public: The Harvester if responsible for collecting exchange data from a third party URL and saving that data into
   # the database.
   class Harvester
     # Public: Initialize a harvester.
     #
-    # harvest_details - The FxchangerHarvest::HarvestDetails containing information on the third party exchange.
+    # harvest_details - The Fxchanger::HarvestDetails containing information on the third party exchange.
     # db_string - The database String used to create a connection to the database.
     def initialize(
         harvest_details,
         database_string,
-        converter = FxchangerHarvest::EcbSourceConverter.new
+        converter = Fxchanger::EcbSourceConverter.new
     )
       @harvest_details = harvest_details
       @database_string = database_string
@@ -22,14 +22,14 @@ module FxchangerHarvest
     #
     #   prefetch!
     def prefetch!
-      response = FxchangerHarvest::Request.get(@harvest_details.endpoint, @harvest_details.content_type)
+      response = Fxchanger::Request.get(@harvest_details.endpoint, @harvest_details.content_type)
       unless response.success?
-        throw FxchangerHarvest::ResponseError.new(response)
+        throw Fxchanger::ResponseError.new(response)
       end
 
       rates = converter.convert(response.body)
       # puts rates
-      repository = FxchangerHarvest::ExchangeRepository.new(@database_string)
+      repository = Fxchanger::ExchangeRepository.new(@database_string)
       repository.create_table?
       repository.save_many rates
     end

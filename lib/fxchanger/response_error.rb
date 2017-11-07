@@ -1,4 +1,4 @@
-module FxchangerHarvest
+module Fxchanger
   # Internal: Error class for representing errors that occur during web requests.
   class ResponseError < ::StandardError
     # Internal: The Integer status code.

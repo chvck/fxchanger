@@ -1,4 +1,4 @@
-module FxchangerHarvest
+module Fxchanger
   # Internal: Object representing a rate for a given currency on a given date.
   class Rate
     # Internal: The Float rate of the currency.

@@ -1,4 +1,4 @@
-module FxchangerHarvest
+module Fxchanger
   # Public: Object responsible for containing the information required for a Harvester to connect and obtain data from a
   # third party.
   class HarvestDetails

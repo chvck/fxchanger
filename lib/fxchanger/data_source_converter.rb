@@ -1,4 +1,4 @@
-module FxchangerHarvest
+module Fxchanger
   class DataSourceConverter
 
     def convert(data)
