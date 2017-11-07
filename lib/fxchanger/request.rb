@@ -34,6 +34,8 @@ module Fxchanger
     def self.handle_response(response)
       if response.success?
         Fxchanger::Response.new response
+      else
+        raise Fxchanger::ResponseError.new response
       end
     end
   end
