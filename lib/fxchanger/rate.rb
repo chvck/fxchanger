@@ -1,20 +1,20 @@
 module Fxchanger
   # Internal: Object representing a rate for a given currency on a given date.
   class Rate
-    # Internal: The Float rate of the currency.
+    # Internal: The BigDecimal rate of the currency.
     attr_reader :rate
     # Internal: The String currency being represented.
     attr_reader :currency
-    # Internal: The String or Bignum date that the rate is valid for.
+    # Internal: The String or Fixnum/Bignum date that the rate is valid for.
     attr_reader :date
     # Internal: The String name of the exchange.
     attr_reader :provider
 
     # Internal: Initialize a new Rate.
     #
-    # rate  - The Float rate of the currency.
+    # rate  - The BigDecimal rate of the currency.
     # currency - The String currency being represented.
-    # date - The String or Bignum date that the rate is valid for.
+    # date - The String or Fixnum/Bignum date that the rate is valid for.
     # provider - The String name of the exchange.
     #
     # Examples
@@ -34,7 +34,7 @@ module Fxchanger
     #   time_as_timestamp
     #   # => 1502233200
     #
-    # Returns a Bignum timestamp.
+    # Returns a Fixnum/Bignum timestamp.
     def time_as_timestamp
       date = @date
       if @date.kind_of? String
