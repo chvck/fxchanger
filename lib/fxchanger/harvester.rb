@@ -22,16 +22,21 @@ module Fxchanger
     #
     #   prefetch!
     def prefetch!
-      response = Fxchanger::Request.get(@harvest_details.endpoint, @harvest_details.content_type)
+      response = Fxchanger::Request.get @harvest_details.endpoint, @harvest_details.content_type
       unless response.success?
-        throw Fxchanger::ResponseError.new(response)
+        throw Fxchanger::ResponseError.new response
       end
 
       rates = converter.convert(response.body)
-      # puts rates
-      repository = Fxchanger::ExchangeRepository.new(@database_string)
+
+      repository = Fxchanger::ExchangeRepository.new @database_string
+      latest_date = repository.get_latest_date
+      # Filter out any dates before the most recent import but leave in dates matching most recent
+      # to prevent any rates from being missed if the exchange is updated after running the harvester.
+      latest_rates = filter_rates_older_than rates, latest_date
+
       repository.create_table?
-      repository.save_many rates
+      repository.save_many_rates latest_rates
     end
 
     private
@@ -41,5 +46,13 @@ module Fxchanger
     attr_reader :database_string
     # Returns the String database connection details of the harvester.
     attr_reader :converter
+
+    # Filter out any rates that are before a given date.
+    #
+    # rates - The array of Rates.
+    # date - The Date to filter with.
+    def filter_rates_older_than(rates, date)
+      rates.select {|rate| Date.parse(rate.date) >= date}
+    end
   end
 end

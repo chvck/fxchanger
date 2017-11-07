@@ -36,7 +36,7 @@ module Fxchanger
     # Internal: Save an array of Rate records.
     #
     # records  - The array of Rate records.
-    def save_many(records)
+    def save_many_rates(records)
       records.each do |record|
         saving_record = record.clone
         @exchange.insert_conflict(:replace).insert({
@@ -46,7 +46,16 @@ module Fxchanger
           :provider => saving_record.provider
         })
       end
+    end
 
+    def get_latest_date
+      latest_date = @exchange.order(:date).reverse.select(:date).first
+      if latest_date == nil
+        return nil
+      end
+
+      time = Time.at latest_date[:date]
+      Date.parse time.to_s
     end
 
     private
