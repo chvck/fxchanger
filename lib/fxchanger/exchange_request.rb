@@ -1,6 +1,6 @@
 module Fxchanger
   # Internal: Methods for fetching data from URLs.
-  class Request
+  class ExchangeRequest
 
     # Public: Perform a get request on a URL.
     #
@@ -33,9 +33,9 @@ module Fxchanger
     # Returns a Fxchanger::Response.
     def self.handle_response(response)
       if response.success?
-        Fxchanger::Response.new response
+        Fxchanger::ExchangeResponse.new response
       else
-        raise Fxchanger::ResponseError.new response
+        raise Fxchanger::ExchangeResponseError.new response
       end
     end
   end

@@ -1,6 +1,6 @@
 module Fxchanger
   # Internal: Error class for representing errors that occur during web requests.
-  class ResponseError < ::StandardError
+  class ExchangeResponseError < ::StandardError
     # Internal: The Integer status code.
     attr_reader :code
     # Internal: The String error message.

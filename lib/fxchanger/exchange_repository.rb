@@ -1,5 +1,3 @@
-require "sequel"
-
 module Fxchanger
   # Internal: Responsible for handling interactions with the rates table.
   class ExchangeRepository
@@ -17,6 +15,16 @@ module Fxchanger
       @exchange = @database[TABLE]
     end
 
+    # Internal: Replace the current database connection with another.
+    #
+    # connection - The replacement connection.
+    def set_connection(connection)
+      if @database != nil
+        @database.disconnect
+      end
+      @database = connection
+      @exchange = @database[TABLE]
+    end
 
     # Internal: Create the rates table if it doesn't exist.
     def create_table?
@@ -48,6 +56,9 @@ module Fxchanger
       end
     end
 
+    # Internal: Get the date of the most recent record in the rates table.
+    #
+    # Returns the latest Date
     def get_latest_date
       latest_date = @exchange.order(:date).reverse.select(:date).first
       if latest_date == nil

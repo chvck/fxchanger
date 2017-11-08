@@ -22,9 +22,9 @@ module Fxchanger
     #
     #   prefetch!
     def prefetch!
-      response = Fxchanger::Request.get @harvest_details.endpoint, @harvest_details.content_type
+      response = Fxchanger::ExchangeRequest.get @harvest_details.endpoint, @harvest_details.content_type
       unless response.success?
-        throw Fxchanger::ResponseError.new response
+        throw Fxchanger::ExchangeResponseError.new response
       end
 
       rates = converter.convert(response.body)

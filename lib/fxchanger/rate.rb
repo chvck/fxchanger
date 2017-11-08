@@ -43,5 +43,22 @@ module Fxchanger
 
       date
     end
+
+    # Internal: Override equals operator.
+    #
+    # other - The Mixed value to compare to
+    #
+    # Returns a Boolean whether or not the other value is equal to this one.
+    def ==(other)
+      unless other.kind_of?(Rate)
+        return false
+      end
+
+      rates_equal = @rate == other.rate
+      currency_equal = @currency == other.currency
+      date_equal = @date == other.date
+      provider_equal = @provider == other.provider
+      rates_equal && currency_equal && date_equal && provider_equal
+    end
   end
 end

@@ -1,6 +1,6 @@
 module Fxchanger
   # Internal: Abstraction of a HTTP response object.
-  class Response
+  class ExchangeResponse
     # Internal: Initialize a response.
     #
     # response - The HTTP response.
