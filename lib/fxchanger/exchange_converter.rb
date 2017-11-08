@@ -16,6 +16,13 @@ module Fxchanger
     #
     # Returns the conversion rate
     def at(date, base_currency, other_currency)
+      # Markets tend to close on weekends so the rates are generally stable, so use the ones from Friday
+      if date.saturday?
+        date = date - 1
+      elsif date.sunday?
+        date = date -2
+      end
+
       base_rate = @repository.get_rate_at date, base_currency
       other_rate = @repository.get_rate_at date, other_currency
 

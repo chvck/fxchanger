@@ -71,6 +71,9 @@ module Fxchanger
 
     # Internal: Get the exchange rate at a given date for a given currency.
     #
+    # date - The Date or String representation of the date to get the rate for, String in format YYYY-mm-dd.
+    # currency - The currency to get the rate for.
+    #
     # Returns the BigDecimal rate.
     def get_rate_at(date, currency)
       query_date = date

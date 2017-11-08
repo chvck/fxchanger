@@ -19,6 +19,44 @@ class ExchangeConverterTest < Minitest::Test
     assert_equal other_rate / base_rate, conversion_rate
   end
 
+  def test_at_saturday
+    date = Date.parse("2017-11-04")
+    date_friday = Date.parse("2017-11-03")
+    base = "GBP"
+    other = "HUF"
+
+    base_rate = 3.141
+    other_rate = 0.98
+
+    mock = MiniTest::Mock.new
+    mock.expect :get_rate_at, base_rate, [date_friday, base]
+    mock.expect :get_rate_at, other_rate, [date_friday, other]
+
+    exchanger = Fxchanger::ExchangeConverter.new mock
+    conversion_rate = exchanger.at(date, base, other)
+
+    assert_equal other_rate / base_rate, conversion_rate
+  end
+
+  def test_at_sunday
+    date = Date.parse("2017-11-05")
+    date_friday = Date.parse("2017-11-03")
+    base = "GBP"
+    other = "HUF"
+
+    base_rate = 3.141
+    other_rate = 0.98
+
+    mock = MiniTest::Mock.new
+    mock.expect :get_rate_at, base_rate, [date_friday, base]
+    mock.expect :get_rate_at, other_rate, [date_friday, other]
+
+    exchanger = Fxchanger::ExchangeConverter.new mock
+    conversion_rate = exchanger.at(date, base, other)
+
+    assert_equal other_rate / base_rate, conversion_rate
+  end
+
   def test_at_invalid_date
     date = Date.parse("2017-11-07")
     base = "GBP"
