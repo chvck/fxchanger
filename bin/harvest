@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "fxchanger"
+require "optparse"
+
+options = {}
+
+OptionParser.new do |opt|
+  opt.banner = "Usage: harvest <exchange_endpoint> <database_connection_string> [options]"
+  opt.on("--converter CONVERTER",
+         "Class name of the class to use for converting exchange response to Rates") { |o| options[:converter] = o }
+  opt.on("--content-type CONTENT_TYPE",
+         "The content type of the exchange response") { |o| options[:content_type] = o }
+end.parse!
+
+endpoint = ARGV[0]
+database_string = ARGV[1]
+
+if endpoint == nil
+  raise StandardError.new "Exchange endpoint must be provided, e.g." \
+  " harvest http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml sqlite://path_to_db.db"
+end
+
+if database_string == nil
+  raise StandardError.new "Database connection string must be provided, e.g." \
+  " harvest http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml sqlite://path_to_db.db"
+end
+
+details_args = [endpoint]
+
+if options[:content_type] != nil
+  details_args << options[:content_type]
+end
+
+
+details = Fxchanger::HarvestDetails.new(*details_args)
+
+harvester_args = {database_string: database_string}
+
+if options[:converter]
+  converter_class = Object.const_get(options[:converter])
+  harvester_args[:converter] = converter_class.new
+end
+
+harvester = Fxchanger::Harvester.new(details, **harvester_args)
+harvester.prefetch!

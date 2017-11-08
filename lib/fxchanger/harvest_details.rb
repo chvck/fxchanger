@@ -14,7 +14,7 @@ module Fxchanger
     # content_type - The Symbol representing the format of the third party data.
     def initialize(endpoint, content_type = :xml)
       @endpoint = endpoint
-      @content_type = content_type
+      @content_type = content_type.to_sym
     end
 
   end

@@ -7,9 +7,9 @@ module Fxchanger
     # harvest_details - The Fxchanger::HarvestDetails containing information on the third party exchange.
     # db_string - The database String used to create a connection to the database.
     def initialize(
-        harvest_details,
-        database_string: Fxchanger.configuration.database_string,
-        converter: Fxchanger::EcbSourceConverter.new
+      harvest_details,
+      database_string: Fxchanger.configuration.database_string,
+      converter: Fxchanger::EcbSourceConverter.new
     )
       @harvest_details = harvest_details
       @database_string = database_string
@@ -30,12 +30,17 @@ module Fxchanger
       rates = converter.convert(response.body)
 
       repository = Fxchanger::ExchangeRepository.new @database_string
+      repository.create_table?
       latest_date = repository.get_latest_date
       # Filter out any dates before the most recent import but leave in dates matching most recent
       # to prevent any rates from being missed if the exchange is updated after running the harvester.
-      latest_rates = filter_rates_older_than rates, latest_date
+      if latest_date == nil
+        latest_rates = rates
+      else
+        latest_rates = filter_rates_older_than rates, latest_date
+      end
+      puts latest_rates
 
-      repository.create_table?
       repository.save_many_rates latest_rates
     end
 
