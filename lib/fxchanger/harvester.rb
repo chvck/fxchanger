@@ -8,8 +8,8 @@ module Fxchanger
     # db_string - The database String used to create a connection to the database.
     def initialize(
         harvest_details,
-        database_string,
-        converter = Fxchanger::EcbSourceConverter.new
+        database_string: Fxchanger.configuration.database_string,
+        converter: Fxchanger::EcbSourceConverter.new
     )
       @harvest_details = harvest_details
       @database_string = database_string

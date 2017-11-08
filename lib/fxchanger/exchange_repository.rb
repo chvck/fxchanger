@@ -58,7 +58,7 @@ module Fxchanger
 
     # Internal: Get the date of the most recent record in the rates table.
     #
-    # Returns the latest Date
+    # Returns the latest Date.
     def get_latest_date
       latest_date = @exchange.order(:date).reverse.select(:date).first
       if latest_date == nil
@@ -67,6 +67,30 @@ module Fxchanger
 
       time = Time.at latest_date[:date]
       Date.parse time.to_s
+    end
+
+    # Internal: Get the exchange rate at a given date for a given currency.
+    #
+    # Returns the BigDecimal rate.
+    def get_rate_at(date, currency)
+      query_date = date
+      if query_date.kind_of? String
+        query_date = Date.parse(query_date)
+      end
+
+      query_date = query_date.to_time.to_i
+
+      rate = @exchange.where(currency: currency, date: query_date).select(:rate).first
+      unless rate == nil
+        rate = rate[:rate]
+      end
+
+      rate
+    end
+
+    # Internal: Disconnect from the database.
+    def disconnect
+      @database.disconnect
     end
 
     private
