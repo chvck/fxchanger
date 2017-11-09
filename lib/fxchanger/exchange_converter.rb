@@ -20,7 +20,7 @@ module Fxchanger
       if date.saturday?
         date = date - 1
       elsif date.sunday?
-        date = date -2
+        date = date - 2
       end
 
       base_rate = @repository.get_rate_at date, base_currency
