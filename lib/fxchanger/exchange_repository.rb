@@ -46,13 +46,19 @@ module Fxchanger
     # records  - The array of Rate records.
     def save_many_rates(records)
       records.each do |record|
-        saving_record = record.clone
-        @exchange.insert_conflict(:replace).insert({
-          :rate => saving_record.rate,
-          :date => saving_record.time_as_timestamp,
-          :currency => saving_record.currency,
-          :provider => saving_record.provider
-        })
+        record_hash = {
+          :rate => record.rate,
+          :date => record.time_as_timestamp,
+          :currency => record.currency,
+          :provider => record.provider
+        }
+        if 0 == @exchange.where(
+          :date => record.time_as_timestamp,
+          :currency => record.currency,
+          :provider => record.provider
+        ).update(rate: record.rate)
+          @exchange.insert(record_hash)
+        end
       end
     end
 

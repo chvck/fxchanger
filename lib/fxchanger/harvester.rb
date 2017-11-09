@@ -39,7 +39,6 @@ module Fxchanger
       else
         latest_rates = filter_rates_older_than rates, latest_date
       end
-      puts latest_rates
 
       repository.save_many_rates latest_rates
     end
