@@ -1,1 +1,1 @@
-0 23 * * * * /path/to/harvest http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml <database_string>
+0 23 * * * * cd /path/to/fxchanger && bundle exec harvest http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml database_string
