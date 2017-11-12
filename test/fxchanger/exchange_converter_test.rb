@@ -100,5 +100,20 @@ class ExchangeConverterTest < Minitest::Test
         exchanger.at(date, base, other)
       end
     end
+
+    def test_currencies
+      currencies = %w("GBP" "RON" "HUF")
+
+      mock = MiniTest::Mock.new
+      mock.expect :currencies, currencies
+
+      exchanger = Fxchanger::ExchangeConverter.new mock
+      actual_currencies = exchanger.currencies
+
+      assert_equal 3, actual_currencies.count
+      assert_includes actual_currencies, "GBP"
+      assert_includes actual_currencies, "HUF"
+      assert_includes actual_currencies, "RON"
+    end
   end
 end

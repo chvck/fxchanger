@@ -17,5 +17,18 @@ module Fxchanger
         repository.disconnect
       end
     end
+
+    # Public - Get the list of valid currencies
+    #
+    # Returns array of String currencies
+    def self.currencies
+      repository = Fxchanger::ExchangeRepository.new Fxchanger.configuration.database_string
+      begin
+        exchange_converter = Fxchanger::ExchangeConverter.new repository
+        return exchange_converter.currencies
+      ensure
+        repository.disconnect
+      end
+    end
   end
 end

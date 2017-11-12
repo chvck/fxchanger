@@ -37,6 +37,13 @@ module Fxchanger
       other_rate / base_rate
     end
 
+    # Internal - Get the list of valid currencies
+    #
+    # Returns array of String currencies
+    def currencies
+      @repository.currencies
+    end
+
     private
     attr_reader :repository
   end

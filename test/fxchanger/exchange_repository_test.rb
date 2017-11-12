@@ -99,4 +99,20 @@ class ExchangeRepositoryTest < Minitest::Test
     actual_rate = repository.get_rate_at Date.parse(Time.at(expected_rate[:date]).to_s).to_s, expected_rate[:currency]
     assert_equal expected_rate[:rate], actual_rate
   end
+
+  def test_currencies
+    repository = Fxchanger::ExchangeRepository.new DB_STRING
+    repository.set_connection DB
+    repository.create_table?
+    DB[:rates].insert({:rate => 3.141, :currency => "HUF", :provider => "European Central Bank", :date => 1509580800})
+    DB[:rates].insert({:rate => 1.12, :currency => "GBP", :provider => "European Central Bank", :date => 1509667200})
+    DB[:rates].insert({:rate => 0.88, :currency => "RON", :provider => "European Central Bank", :date => 1509580800})
+    DB[:rates].insert({:rate => 32.2, :currency => "GBP", :provider => "European Central Bank", :date => 1509753600})
+
+    currencies = repository.currencies
+    assert_equal 3, currencies.count
+    assert_includes currencies, "GBP"
+    assert_includes currencies, "HUF"
+    assert_includes currencies, "RON"
+  end
 end

@@ -97,6 +97,15 @@ module Fxchanger
       rate
     end
 
+    # Internal - Get the list of valid currencies
+    #
+    # Returns array of String currencies
+    def currencies
+      raw_currencies = @exchange.order(:currency).select(:currency).distinct()
+
+      raw_currencies.map {|raw_currency| raw_currency[:currency]}
+    end
+
     # Internal: Disconnect from the database.
     def disconnect
       @database.disconnect
