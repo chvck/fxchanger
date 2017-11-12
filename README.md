@@ -1,8 +1,6 @@
 # Fxchanger
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/fxchanger`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Gem for converting between different currencies using a specific exchange web endpoint.
 
 ## Installation
 
@@ -22,14 +20,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The gem is made up of two concepts: retrieving conversion rates and harvesting exchange data.
+
+Before accessing anything within the fxchanger gem it must be configured with the database connection string. To set this
+up use `Fxchanger.configuration.database_string = "database_string_here"` from your application.
+
+To use the conversion API is simply a call to `Fxchanger::ExchangeRate.at(date, base_currency, counter_currency)`. There is 
+also a helper method at `Fxchanger::ExchangeRate.currencies` to retrieve all valid currencies from the database.
+
+The harvester is accessible via `Fxchanger::Harvester`. It requires a `Fxchanger::HarvestDetails` object containing the exchange
+endpoint and response data type. It can also receive a converter object, this will be used for converting the reponse from the endpoint
+to a list of `Fxchanger::Rate` objects. The object must expose the interface in `Fxchanger::DataSourceConverter`, see `EcbSourceConverter`.
+
+The harvester can also be run from within the gem using `bundle exec harvest`, this script takes the endpoint and the database connection
+string as arguments. It also takes some options, see `bundle exec harvester -h`. There is also a sample cron file at `bin/harvest.cron`.
 
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/fxchanger.
+To install this gem onto your local machine, run `bundle install`.
