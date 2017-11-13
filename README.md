@@ -35,6 +35,8 @@ to a list of `Fxchanger::Rate` objects. The object must expose the interface in 
 The harvester can also be run from within the gem using `bundle exec harvest`, this script takes the endpoint and the database connection
 string as arguments. It also takes some options, see `bundle exec harvester -h`. There is also a sample cron file at `bin/harvest.cron`.
 
+Database tables are created automatically by the harvester, the harvester must be run before the library can be used.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
